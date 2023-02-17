@@ -1,3 +1,5 @@
+import java.io.StringReader;
+
 public class Account {
     private String account;
     private String mail;

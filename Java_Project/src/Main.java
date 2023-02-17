@@ -77,6 +77,8 @@
 import java.sql.*;
 import java.util.Scanner;
 
+import static java.lang.System.*;
+
 public class Main {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "0000";
@@ -97,13 +99,13 @@ public class Main {
     }
 
     public void run() throws SQLException {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         while (true) {
-            System.out.println(" ");
-            System.out.println("1. Показать список всех аккаунтов");
-            System.out.println("2. Создать");
-            System.out.println("3. Выйти");
-            System.out.println(" ");
+            out.println(" ");
+            out.println("1. Показать список всех аккаунтов");
+            out.println("2. Создать");
+            out.println("3. Выйти");
+            out.println(" ");
 
             int command = scanner.nextInt();
 
@@ -113,12 +115,12 @@ public class Main {
                     String DB_ACCOUNT = "select * from accounts order by Accounts";
                     ResultSet result = st.executeQuery(DB_ACCOUNT);
 
-                    System.out.println(" ");
+                    out.println(" ");
 
                     while (result.next()) {
-                        System.out.println(result.getString("Account") + "   |   " + result.getString("Mail") + "   |   " + result.getString("Login") + "   |   " + result.getString("Password"));
+                        out.println(result.getString("Account") + "   |   " + result.getString("Mail") + "   |   " + result.getString("Login") + "   |   " + result.getString("Password"));
                     }
-                    System.out.println(" ");
+                    out.println(" ");
                     break;
 
                 case 2:
@@ -135,15 +137,15 @@ public class Main {
                     statement.setString(4, newAccount.getPassword());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
-                        System.out.println("A new user data has been inserted successfully.");
+                        out.println("A new user data has been inserted successfully.");
                     }
                     break;
 
                 case 3:
-                    System.exit(0);
+                    exit(0);
 
                 default:
-                    System.err.println("Команда не распознана");
+                    err.println("Команда не распознана");
             }
         }
     }

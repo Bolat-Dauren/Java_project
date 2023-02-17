@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import static java.lang.System.out;
+
 public class UserInput {
     private Scanner scanner;
 
@@ -16,7 +18,7 @@ public class UserInput {
     }
 
     private String getInput(String prompt) {
-        System.out.print(prompt + ": ");
+        out.print(prompt + ": ");
         return scanner.nextLine();
     }
 }

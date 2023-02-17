@@ -123,18 +123,16 @@ public class Main {
 
                 case 2:
                     // Take input from user for site, mail, login, and password
-                    String account = getInput("Account");
-                    String mail = getInput("Mail");
-                    String login = getInput("Login");
-                    String password = getInput("Password");
+                    UserInput userInput = new UserInput(scanner);
+                    Account newAccount = userInput.getAccountInfo();
 
                     // Insert the user inputs into the database
-                    String sql = "INSERT INTO accounts (account, mail, login, password) VALUES (?, ?, ?, ?)";
+                    String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
                     PreparedStatement statement = connection.prepareStatement(sql);
-                    statement.setString(1, account);
-                    statement.setString(2, mail);
-                    statement.setString(3, login);
-                    statement.setString(4, password);
+                    statement.setString(1, newAccount.getAccount());
+                    statement.setString(2, newAccount.getMail());
+                    statement.setString(3, newAccount.getLogin());
+                    statement.setString(4, newAccount.getPassword());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
                         System.out.println("A new user data has been inserted successfully.");
@@ -148,12 +146,5 @@ public class Main {
                     System.err.println("Команда не распознана");
             }
         }
-    }
-
-    // Method to get input from user
-    public static String getInput(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(prompt + ": ");
-        return scanner.nextLine();
     }
 }

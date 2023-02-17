@@ -8,11 +8,11 @@ public class UserInput {
     }
 
     public Account getAccountInfo() {
-        String site = getInput("Account");
+        String account = getInput("Account");
         String mail = getInput("Mail");
         String login = getInput("Login");
         String password = getInput("Password");
-        return new Account(site, mail, login, password);
+        return new Account(account, mail, login, password);
     }
 
     private String getInput(String prompt) {

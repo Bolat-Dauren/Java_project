@@ -1,18 +1,18 @@
 public class Account {
-    private String site;
+    private String account;
     private String mail;
     private String login;
     private String password;
 
-    public Account(String site, String mail, String login, String password) {
-        this.site = site;
+    public Account(String account, String mail, String login, String password) {
+        this.account = account;
         this.mail = mail;
         this.login = login;
         this.password = password;
     }
 
-    public String getSite() {
-        return site;
+    public String getAccount() {
+        return account;
     }
 
     public String getMail() {

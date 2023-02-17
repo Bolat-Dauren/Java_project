@@ -75,60 +75,84 @@
 
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "0000";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
-    Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+    Connection connection;
 
     public Main() throws SQLException {
+        connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     }
 
     public static void main(String[] args) {
-        // Take input from user for site, mail, login, and password
-        String site = getInput("Account");
-        String mail = getInput("Mail");
-        String login = getInput("Login");
-        String password = getInput("Password");
-
-        // Connect to the PostgreSQL database
-        Connection conn = null;
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password_db = "0000";
         try {
-            conn = DriverManager.getConnection(url, user, password_db);
-            System.out.println("Connected to the PostgreSQL server successfully.");
-
-            // Insert the user inputs into the database
-            String sql = "INSERT INTO accounts (account, mail, login, password) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, site);
-            statement.setString(2, mail);
-            statement.setString(3, login);
-            statement.setString(4, password);
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("A new user data has been inserted successfully.");
-            }
+            Main main = new Main();
+            main.run();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                    System.out.println("Database connection closed.");
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void run() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println(" ");
+            System.out.println("1. Показать список всех аккаунтов");
+            System.out.println("2. Создать");
+            System.out.println("3. Выйти");
+            System.out.println(" ");
+
+            int command = scanner.nextInt();
+
+            switch (command) {
+                case 1:
+                    Statement st = connection.createStatement();
+                    String DB_ACCOUNT = "select * from accounts order by Accounts";
+                    ResultSet result = st.executeQuery(DB_ACCOUNT);
+
+                    System.out.println(" ");
+
+                    while (result.next()) {
+                        System.out.println(result.getString("Account") + "   |   " + result.getString("Mail") + "   |   " + result.getString("Login") + "   |   " + result.getString("Password"));
+                    }
+                    System.out.println(" ");
+                    break;
+
+                case 2:
+                    // Take input from user for site, mail, login, and password
+                    String account = getInput("Account");
+                    String mail = getInput("Mail");
+                    String login = getInput("Login");
+                    String password = getInput("Password");
+
+                    // Insert the user inputs into the database
+                    String sql = "INSERT INTO accounts (account, mail, login, password) VALUES (?, ?, ?, ?)";
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    statement.setString(1, account);
+                    statement.setString(2, mail);
+                    statement.setString(3, login);
+                    statement.setString(4, password);
+                    int rowsInserted = statement.executeUpdate();
+                    if (rowsInserted > 0) {
+                        System.out.println("A new user data has been inserted successfully.");
+                    }
+                    break;
+
+                case 3:
+                    System.exit(0);
+
+                default:
+                    System.err.println("Команда не распознана");
             }
         }
     }
 
     // Method to get input from user
     public static String getInput(String prompt) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.print(prompt + ": ");
         return scanner.nextLine();
     }

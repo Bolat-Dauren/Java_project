@@ -1,5 +1,5 @@
 public class qwe {
     public static void main(String[] args) {
-        System.out.println("AAAAAAAA      qweeeeeeee");
+        System.out.println("negr??");
     }
 }

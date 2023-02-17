@@ -1,11 +1,23 @@
 
+import java.sql.*;
+
 import static java.lang.System.*;
 
 public class PasswordChecker {
+    private static final String DB_USERNAME = "postgres";
+    private static final String DB_PASSWORD = "0000";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    static Connection connection;
 
-    public static void check() {
-        Account password=new Account(String password);
-        if (isSimplePassword(password)) {
+    public PasswordChecker() throws SQLException {
+        connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+    }
+
+    public static void check() throws SQLException {
+        Statement st = connection.createStatement();
+        String DB_ACCOUNT = "select * from accounts order by Accounts";
+        ResultSet result = st.executeQuery(DB_ACCOUNT);
+        if (isSimplePassword(result.getString("Password"))) {
             out.println("Your password is too simple. Please choose a stronger password.");
         } else {
             out.println("Your password is strong.");

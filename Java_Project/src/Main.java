@@ -89,7 +89,7 @@ public class Main {
         connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         try {
             Main main = new Main();
             main.run();

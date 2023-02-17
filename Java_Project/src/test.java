@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class Main {
+public class test {
     public static void main(String[] args) {
         // Take input from user for site, mail, login, and password
         String site = getInput("Site");

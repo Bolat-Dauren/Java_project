@@ -11,11 +11,7 @@ abstract class Site {
         this.ID = ID;
         this.site = site;
         this.mail = mail;
-        this.deliveryTime = deliveryTime;
-    }
-
-    public boolean IsFresh() {
-        LocalDate expirationDate = deliveryTime.plusDays(storageLifeDays);
-        return LocalDate.now().isBefore(expirationDate);
+        this.username = username;
+        this.password = password;
     }
 }

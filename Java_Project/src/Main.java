@@ -172,6 +172,7 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        PasswordChecker.check();
     }
 
     public void run() throws SQLException {

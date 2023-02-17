@@ -1,14 +1,10 @@
-import java.util.Scanner;
 
 import static java.lang.System.*;
 
 public class PasswordChecker {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(in);
-        out.print("Enter your password: ");
-        String password = scanner.nextLine();
-
+    public static void check() {
+        Account password=new Account(String password);
         if (isSimplePassword(password)) {
             out.println("Your password is too simple. Please choose a stronger password.");
         } else {

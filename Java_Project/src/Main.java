@@ -1,83 +1,5 @@
-//import java.sql.*;
-//import java.util.Scanner;
-//
-//public class Main {
-//
-//    private static final String DB_USERNAME = "postgres";
-//    private static final String DB_PASSWORD = "0000";
-//    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
-//
-//    public static void main(String[] args) throws Exception {
-//        Scanner scanner = new Scanner(System.in);
-//        Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-//        while (true) {
-//            System.out.println(" ");
-//            System.out.println("1. Показать список всех задач");
-//            System.out.println("2. Выполнить задачу");
-//            System.out.println("3. Создать задачу");
-//            System.out.println("4. Выйти");
-//            System.out.println(" ");
-//
-//            int command = scanner.nextInt();
-//
-//            switch (command) {
-//                case 1:
-//
-//                    Statement st = connection.createStatement();
-//                    String DB_USER_ID = "select * from task1 order by id";
-//                    ResultSet result = st.executeQuery(DB_USER_ID);
-//
-//                    System.out.println(" ");
-//
-//                    while (result.next()) {
-//                        System.out.println(result.getInt("id") + "   |   " + result.getString("name") + "   |   " + result.getString("state") + "   |   ");
-//                    }
-//                    System.out.println(" ");
-//                    break;
-//
-//                case 2:
-//
-//                    String sql = "update task1 set state = 'Done' where id = ?";
-//                    PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//                    System.out.println(" ");
-//                    System.out.println("Введите идентификатор задачи: ");
-//                    System.out.println(" ");
-//                    int TASK_ID = scanner.nextInt();
-//                    preparedStatement.setInt(1, TASK_ID);
-//                    preparedStatement.executeUpdate();
-//                    break;
-//
-//                case 3:
-//
-//                    String sql1 = "insert into task1(name, state) values (?, 'IN_PROCESS')";
-//                    PreparedStatement preparedStatement1 = connection.prepareStatement(sql1);
-//                    System.out.println(" ");
-//                    System.out.println("Введите название задачи: ");
-//                    System.out.println(" ");
-//                    String TASK_NAME = scanner.next();
-//                    preparedStatement1.setString(1, TASK_NAME);
-//                    preparedStatement1.executeUpdate();
-//                    break;
-//
-//                case 4:
-//                    System.exit(0);
-//
-//                default:
-//                    System.err.println("Команда не распознана");
-//            }
-//        }
-//    }
-//}
-
-
-
-
-
-
 import java.sql.*;
 import java.util.Scanner;
-
-import static java.lang.System.*;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
@@ -96,143 +18,165 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        PasswordChecker.check();
     }
-
     public void run() throws SQLException {
-        Scanner scanner = new Scanner(in);
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            out.println(" ");
-            out.println("1. Показать список всех аккаунтов");
-            out.println("2. Создать");
-            out.println("3. Выйти");
-            out.println(" ");
+            System.out.println("1. Show all accounts");
+            System.out.println("2. Create a new account");
+            System.out.println("3. Exit");
 
             int command = scanner.nextInt();
 
             switch (command) {
                 case 1:
                     Statement st = connection.createStatement();
-                    String DB_ACCOUNT = "select * from accounts order by Accounts";
-                    ResultSet result = st.executeQuery(DB_ACCOUNT);
+                    String query = "SELECT * FROM project ORDER BY id";
+                    ResultSet result = st.executeQuery(query);
+                    ResultSetMetaData metaData = result.getMetaData();
+                    int columnCount = metaData.getColumnCount();
 
-                    out.println(" ");
-
-                    while (result.next()) {
-                        out.println(result.getString("Account") + "   |   " + result.getString("Mail") + "   |   " + result.getString("Login") + "   |   " + result.getString("Password"));
+                    // print column headers
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
                     }
-                    out.println(" ");
+                    System.out.println("+");
+
+                    System.out.format("|%-1s |%-20s |%-25s |%-20s |%-20s |\n", "ID", "Account", "Mail", "Login", "Password");
+
+                    // print horizontal line
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
+                    }
+                    System.out.println("+");
+
+                    // print data rows
+                    while (result.next()) {
+                        int id = result.getInt("id");
+                        String account = result.getString("account");
+                        String mail = result.getString("mail");
+                        String login = result.getString("login");
+                        String password = result.getString("password");
+
+                        System.out.format("|%-2s |%-20s |%-25s |%-20s |%-20s |\n", id, account, mail, login, password);
+                    }
+
+                    // print horizontal line
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
+                    }
+                    System.out.println("+");
                     break;
 
                 case 2:
-                    // Take input from user for site, mail, login, and password
                     UserInput userInput = new UserInput(scanner);
                     Account newAccount = userInput.getAccountInfo();
-
-                    // Insert the user inputs into the database
-                    String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
-                    PreparedStatement statement = connection.prepareStatement(sql);
+                    String sql = "INSERT INTO project(id, account, mail, login, password) VALUES (?, ?, ?, ?)";
+                    PreparedStatement statement = this.connection.prepareStatement(sql);
+                    statement.setInt(1, newAccount.getId());
                     statement.setString(1, newAccount.getAccount());
                     statement.setString(2, newAccount.getMail());
                     statement.setString(3, newAccount.getLogin());
                     statement.setString(4, newAccount.getPassword());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
-                        out.println("A new user data has been inserted successfully.");
+                        System.out.println(" ");
+                        System.out.println("A new account has been created.");
+                        System.out.println(" ");
+                        continue;
                     }
-                    break;
-
                 case 3:
-                    exit(0);
+                    System.exit(0);
 
                 default:
-                    err.println("Команда не распознана");
+                    System.err.println("Command not recognized");
             }
         }
     }
 }
 
 
-//import java.sql.*;
-//import java.util.Scanner;
-//
+
+
+
 //public class Main {
-//    private static final String DB_USERNAME = "postgres";
-//    private static final String DB_PASSWORD = "0000";
-//    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
-//    Connection connection;
-//
-//    public Main() throws SQLException {
-//        connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-//    }
-//
 //    public static void main(String[] args) {
-//        try {
-//            Main main = new Main();
-//            main.run();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
+//        System.out.print("|        ID        |           | Delivered at     | Storage place    | Life days        | Fresh            |\n");
+//        for (int i = 1; i <= columnCount; i++) {
+//            System.out.format("+------------------");
 //        }
-//    }
+//        System.out.print("+");
 //
-//    public void run() throws SQLException {
-//        Scanner scanner = new Scanner(System.in);
-//        while (true) {
-//            System.out.println(" ");
-//            System.out.println("1. Показать список всех аккаунтов");
-//            System.out.println("2. Создать");
-//            System.out.println("3. Выйти");
-//            System.out.println(" ");
+//            System.out.print("|");
 //
-//            int command = scanner.nextInt();
-//
-//            switch (command) {
-//                case 1:
-//                    Statement st = connection.createStatement();
-//                    String DB_ACCOUNT = "select * from accounts order by Accounts";
-//                    ResultSet result = st.executeQuery(DB_ACCOUNT);
-//
-//                    System.out.println(" ");
-//
-//                    while (result.next()) {
-//                        System.out.println(result.getString("Account") + "   |   " + result.getString("Mail") + "   |   " + result.getString("Login") + "   |   " + result.getString("Password"));
-//                    }
-//                    System.out.println(" ");
-//                    break;
-//
-//                case 2:
-//                    // Take input from user for site, mail, login, and password
-//                    String account = getInput("Account");
-//                    String mail = getInput("Mail");
-//                    String login = getInput("Login");
-//                    String password = getInput("Password");
-//
-//                    // Insert the user inputs into the database
-//                    String sql = "INSERT INTO accounts (account, mail, login, password) VALUES (?, ?, ?, ?)";
-//                    PreparedStatement statement = connection.prepareStatement(sql);
-//                    statement.setString(1, account);
-//                    statement.setString(2, mail);
-//                    statement.setString(3, login);
-//                    statement.setString(4, password);
-//                    int rowsInserted = statement.executeUpdate();
-//                    if (rowsInserted > 0) {
-//                        System.out.println("A new user data has been inserted successfully.");
-//                    }
-//                    break;
-//
-//                case 3:
-//                    System.exit(0);
-//
-//                default:
-//                    System.err.println("Команда не распознана");
-//            }
+//        System.out.println();
+//        for (int i = 1; i <= columnCount; i++) {
+//            System.out.format("+------------------");
 //        }
-//    }
-//
-//    // Method to get input from user
-//    public static String getInput(String prompt) {
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print(prompt + ": ");
-//        return scanner.nextLine();
+//        System.out.println("+");
 //    }
 //}
+
+
+
+
+
+
+//                case 1:
+//                        Statement st = connection.createStatement();
+//                        String query = "SELECT * FROM project ORDER BY id";
+//                        ResultSet result = st.executeQuery(query);
+//                        System.out.println("Account  |  Mail  |  Login  |  Password  |");
+//                        while (result.next()) {
+//                        System.out.println("---------------------------------------------------------");
+//                        System.out.println(result.getString("account") + "  |  " + result.getString("mail") + "  |  " + result.getString("login") + "  |  " + result.getString("password") + "  |  ");
+//                        }
+//                        break;
+
+
+
+
+
+
+
+
+
+//                case 1:
+//                        Statement st = connection.createStatement();
+//                        String query = "SELECT * FROM project ORDER BY id";
+//                        ResultSet result = st.executeQuery(query);
+//                        ResultSetMetaData metaData = result.getMetaData();
+//                        int columnCount = metaData.getColumnCount();
+//
+//                        // print column headers
+//                        for (int i = 1; i <= columnCount; i++) {
+//                        System.out.format("+------------------");
+//                        }
+//                        System.out.println("+");
+//
+//                        System.out.format("|%-1s |%-20s |%-25s |%-20s |%-20s |\n", "ID", "Account", "Mail", "Login", "Password");
+//
+//                        // print horizontal line
+//                        for (int i = 1; i <= columnCount; i++) {
+//                        System.out.format("+------------------");
+//                        }
+//                        System.out.println("+");
+//
+//                        // print data rows
+//                        while (result.next()) {
+//                        int id = result.getInt("id");
+//                        String account = result.getString("account");
+//                        String mail = result.getString("mail");
+//                        String login = result.getString("login");
+//                        String password = result.getString("password");
+//
+//                        System.out.format("|%-2s |%-20s |%-25s |%-20s |%-20s |\n", id, account, mail, login, password);
+//                        }
+//
+//                        // print horizontal line
+//                        for (int i = 1; i <= columnCount; i++) {
+//                        System.out.format("+------------------");
+//                        }
+//                        System.out.println("+");
+//
+//                        break;

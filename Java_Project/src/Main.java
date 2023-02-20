@@ -27,11 +27,12 @@ public class Main {
             System.out.println("3. Exit");
 
             int command = scanner.nextInt();
+            scanner.nextLine();
 
             switch (command) {
                 case 1:
                     Statement st = connection.createStatement();
-                    String query = "SELECT * FROM project ORDER BY id";
+                    String query = "SELECT * FROM accounts ORDER BY id";
                     ResultSet result = st.executeQuery(query);
                     ResultSetMetaData metaData = result.getMetaData();
                     int columnCount = metaData.getColumnCount();
@@ -71,13 +72,13 @@ public class Main {
                 case 2:
                     UserInput userInput = new UserInput(scanner);
                     Account newAccount = userInput.getAccountInfo();
-                    String sql = "INSERT INTO project(id, account, mail, login, password) VALUES (?, ?, ?, ?)";
+                    String sql = "INSERT INTO accounts(id, account, mail, login, password) VALUES (?, ?, ?, ?, ?)";
                     PreparedStatement statement = this.connection.prepareStatement(sql);
                     statement.setInt(1, newAccount.getId());
-                    statement.setString(1, newAccount.getAccount());
-                    statement.setString(2, newAccount.getMail());
-                    statement.setString(3, newAccount.getLogin());
-                    statement.setString(4, newAccount.getPassword());
+                    statement.setString(2, newAccount.getAccount());
+                    statement.setString(3, newAccount.getMail());
+                    statement.setString(4, newAccount.getLogin());
+                    statement.setString(5, newAccount.getPassword());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
                         System.out.println(" ");

@@ -9,7 +9,7 @@ public class UserInput {
     }
 
     public Account getAccountInfo() {
-        Integer id = Integer.valueOf(getInput("Id"));
+        Integer id = Integer.parseInt(getInput("Id"));
         String account = getInput("Account");
         String mail = getInput("Mail");
         String login = getInput("Login");

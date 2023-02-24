@@ -36,7 +36,9 @@ public class Main {
                     String query = "SELECT * FROM accounts ORDER BY id";
                     ResultSet result = st.executeQuery(query);
                     if(!result.isBeforeFirst()){
+                        System.out.println(" ");
                         System.out.println("Database is empty");
+                        System.out.println(" ");
                         break;
                     }
                     ResultSetMetaData metaData = result.getMetaData();

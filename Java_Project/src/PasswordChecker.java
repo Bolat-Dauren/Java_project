@@ -7,9 +7,7 @@ public class PasswordChecker {
     public static String check(String password) {
         Matcher matcher = PASSWORD_PATTERN.matcher(password);
         if (!matcher.matches()) {
-            System.out.println(" ");
             System.out.println("Your password is not strong");
-            System.out.println(" ");
             return "wrong";
         } else {
             int score = calculatePasswordScore(password);
@@ -23,16 +21,16 @@ public class PasswordChecker {
     private static int calculatePasswordScore(String password) {
         int score = 0;
         if (password.matches(".*[a-z].*")) {
-            score += 1;
+            score += 10;
         }
         if (password.matches(".*[A-Z].*")) {
-            score += 2;
+            score += 20;
         }
         if (password.matches(".*\\d.*")) {
-            score += 3;
+            score += 30;
         }
         if (password.matches(".*[@$!%*?&].*")) {
-            score += 4;
+            score += 40;
         }
         return score;
     }

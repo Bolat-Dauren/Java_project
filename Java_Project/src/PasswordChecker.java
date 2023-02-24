@@ -1,6 +1,4 @@
-
 import java.util.regex.Matcher;
-
 import java.util.regex.Pattern;
 
 public class PasswordChecker {
@@ -14,8 +12,28 @@ public class PasswordChecker {
             System.out.println(" ");
             return "wrong";
         } else {
+            int score = calculatePasswordScore(password);
+            int maxScore = 100;
+            int percentage = (int) ((double) score / maxScore * 100);
+            System.out.printf("Your password strength is %d%%\n", percentage);
             return password;
         }
     }
-}
 
+    private static int calculatePasswordScore(String password) {
+        int score = 0;
+        if (password.matches(".*[a-z].*")) {
+            score += 1;
+        }
+        if (password.matches(".*[A-Z].*")) {
+            score += 2;
+        }
+        if (password.matches(".*\\d.*")) {
+            score += 3;
+        }
+        if (password.matches(".*[@$!%*?&].*")) {
+            score += 4;
+        }
+        return score;
+    }
+}

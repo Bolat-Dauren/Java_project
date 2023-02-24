@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class UserInput {
     private Scanner scanner;
-    PasswordChecker passChecker = new PasswordChecker();
+    private PasswordChecker passChecker = new PasswordChecker();
 
     public UserInput(Scanner scanner) {
         this.scanner = scanner;
@@ -11,7 +11,15 @@ public class UserInput {
     public Account getAccountInfo() {
         Integer id = Integer.parseInt(getInput("Id"));
         String account = getInput("Account");
-        String mail = getInput("Mail");
+        String mail;
+        while (true) {
+            mail = getInput("Mail");
+            if (EmailChecker.isValid(mail)) {
+                break;
+            } else {
+                System.out.println("Invalid email, please try again.");
+            }
+        }
         String login = getInput("Login");
         String password;
         String answer;

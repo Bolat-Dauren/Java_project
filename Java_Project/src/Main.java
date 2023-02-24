@@ -6,6 +6,7 @@ public class Main {
     private static final String DB_PASSWORD = "qwe123";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
+    AccountSearcher accountSearcher = new AccountSearcher();
 
     public Main() throws SQLException {
         connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -24,9 +25,9 @@ public class Main {
         while (true) {
             System.out.println("1. Show all accounts");
             System.out.println("2. Create a new account");
-            System.out.println("3. Delete a task");
-            System.out.println("4. Exit");
-
+            System.out.println("3. Delete an account");
+            System.out.println("4. Find an account by name");
+            System.out.println("5. Exit");
             int command = scanner.nextInt();
             scanner.nextLine();
 
@@ -39,7 +40,7 @@ public class Main {
                         System.out.println("Database is empty");
                         break;
                     }
-
+                    System.out.println("");
                     // print column headers
                     for (int i = 1; i <= 4; i++) {
                         System.out.format("+--------------------");
@@ -69,6 +70,7 @@ public class Main {
                         }
                         System.out.println("+");
                     }
+                    System.out.println("");
 
                     break;
 
@@ -108,6 +110,13 @@ public class Main {
                     break;
 
                 case 4:
+                    System.out.println("Enter the name of account that you want to find: ");
+                    String name = scanner.nextLine();
+                    System.out.println("");
+                    accountSearcher.searchAccountByName(name);
+                    break;
+
+                case 5:
                     System.exit(0);
 
                 default:

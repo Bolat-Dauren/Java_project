@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "0000";
+    private static final String DB_PASSWORD = "qwe123";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
     AccountSearcher accountSearcher = new AccountSearcher();

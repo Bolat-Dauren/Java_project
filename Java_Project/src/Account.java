@@ -1,8 +1,10 @@
+import java.util.Date;
 class Account {
     private String account;
     private String mail;
     private String login;
     private String password;
+    private Date lastChanged;
 
     public Account(String account, String mail, String login, String password) {
         this.account = account;
@@ -25,5 +27,13 @@ class Account {
 
     public String getPassword() {
         return password;
+    }
+
+    public Date getLastChanged() {
+        return lastChanged;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+        this.lastChanged = new Date();
     }
 }

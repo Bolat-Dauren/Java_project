@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.util.Date;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
@@ -64,6 +65,7 @@ public class Main {
                         String login = result.getString("login");
                         String password = result.getString("password");
 
+
                         System.out.format("|%-19s |%-19s |%-19s |%-19s |\n", account, mail, login, password);
 
                         // print horizontal line
@@ -79,6 +81,16 @@ public class Main {
                 case 2:
                     UserInput userInput = new UserInput(scanner);
                     Account newAccount = userInput.getAccountInfo();
+
+                    // check password expiration
+                    Date lastChanged = newAccount.getLastChanged();
+                    if (PasswordExpiration.isPasswordExpired(lastChanged)) {
+                        PasswordExpiration.notifyPasswordExpired();
+                        return;
+                    } else if (PasswordExpiration.isPasswordExpired(lastChanged)) {
+                        PasswordExpiration.notifyPasswordExpiringSoon(lastChanged);
+                    }
+
                     String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
                     PreparedStatement statement = this.connection.prepareStatement(sql);
                     statement.setString(1, newAccount.getAccount());
@@ -92,6 +104,7 @@ public class Main {
                         System.out.println(" ");
                         continue;
                     }
+
 
                 case 3:
                     System.out.print("Enter account name to delete: ");

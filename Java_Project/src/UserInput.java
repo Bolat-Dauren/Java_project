@@ -9,7 +9,6 @@ public class UserInput {
     }
 
     public Account getAccountInfo() {
-        Integer id = Integer.parseInt(getInput("Id"));
         String account = getInput("Account");
         String mail;
         while (true) {
@@ -31,7 +30,7 @@ public class UserInput {
             }
             else {break;}
         }
-        return new Account(id, account, mail, login, password);
+        return new Account(account, mail, login, password);
     }
 
     private String getInput(String prompt) {

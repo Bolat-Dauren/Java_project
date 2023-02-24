@@ -1,20 +1,16 @@
 class Account {
-    private Integer id;
     private String account;
     private String mail;
     private String login;
     private String password;
 
-    public Account(Integer id, String account, String mail, String login, String password) {
-        this.id = id;
+    public Account(String account, String mail, String login, String password) {
         this.account = account;
         this.mail = mail;
         this.login = login;
         this.password = password;
     }
-    public int getId() {
-        return id;
-    }
+
     public String getAccount() {
         return account;
     }

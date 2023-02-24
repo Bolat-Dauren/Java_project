@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "0000";
+    private static final String DB_PASSWORD = "qwe123";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
 
@@ -33,7 +33,7 @@ public class Main {
             switch (command) {
                 case 1:
                     Statement st = connection.createStatement();
-                    String query = "SELECT * FROM accounts ORDER BY id";
+                    String query = "SELECT * FROM accs ORDER BY id";
                     ResultSet result = st.executeQuery(query);
                     ResultSetMetaData metaData = result.getMetaData();
                     int columnCount = metaData.getColumnCount();
@@ -73,13 +73,12 @@ public class Main {
                 case 2:
                     UserInput userInput = new UserInput(scanner);
                     Account newAccount = userInput.getAccountInfo();
-                    String sql = "INSERT INTO accounts(id, account, mail, login, password) VALUES (?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO accs(account, mail, login, password) VALUES (?, ?, ?, ?)";
                     PreparedStatement statement = this.connection.prepareStatement(sql);
-                    statement.setInt(1, newAccount.getId());
-                    statement.setString(2, newAccount.getAccount());
-                    statement.setString(3, newAccount.getMail());
-                    statement.setString(4, newAccount.getLogin());
-                    statement.setString(5, newAccount.getPassword());
+                    statement.setString(1, newAccount.getAccount());
+                    statement.setString(2, newAccount.getMail());
+                    statement.setString(3, newAccount.getLogin());
+                    statement.setString(4, newAccount.getPassword());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
                         System.out.println(" ");
@@ -91,7 +90,7 @@ public class Main {
                 case 3:
                     System.out.print("Enter account name to delete: ");
                     String accountToDelete = scanner.nextLine();
-                    String deleteQuery = "DELETE FROM accounts WHERE account=?";
+                    String deleteQuery = "DELETE FROM accs WHERE account=?";
                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
                     deleteStatement.setString(1, accountToDelete);
                     int rowsDeleted = deleteStatement.executeUpdate();

@@ -9,21 +9,21 @@ public class UserInput {
     }
 
     public Account getAccountInfo() {
-        String account = getInput("Account");
+        String account = getInput("Account:");
         String mail;
         while (true) {
-            mail = getInput("Mail");
+            mail = getInput("Mail:");
             if (EmailChecker.isValid(mail)) {
                 break;
             } else {
                 System.out.println("Invalid email, please try again.");
             }
         }
-        String login = getInput("Login");
+        String login = getInput("Login:");
         String password;
         String answer;
         while (true) {
-            password = getInput("Password");
+            password = getInput("Password:");
             answer = passChecker.check(password);
             if (answer.contentEquals("wrong")) {
                 continue;

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "qwe123";
+    private static final String DB_PASSWORD = "0000";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
     AccountSearcher accountSearcher = new AccountSearcher();
@@ -37,7 +37,9 @@ public class Main {
                     String query = "SELECT * FROM accounts ORDER BY account";
                     ResultSet result = st.executeQuery(query);
                     if(!result.isBeforeFirst()) {
+                        System.out.println(" ");
                         System.out.println("Database is empty");
+                        System.out.println(" ");
                         break;
                     }
                     System.out.println("");

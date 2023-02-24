@@ -89,18 +89,19 @@ public class Main {
                     }
 
                 case 3:
-                    int idToDelete = Integer.parseInt(scanner.nextLine());
-                    String deleteQuery = "DELETE FROM accounts WHERE id=?";
+                    System.out.print("Enter account name to delete: ");
+                    String accountToDelete = scanner.nextLine();
+                    String deleteQuery = "DELETE FROM accounts WHERE account=?";
                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
-                    deleteStatement.setInt(1, idToDelete);
+                    deleteStatement.setString(1, accountToDelete);
                     int rowsDeleted = deleteStatement.executeUpdate();
                     if (rowsDeleted > 0) {
                         System.out.println(" ");
-                        System.out.println("The account with ID " + idToDelete + " has been deleted.");
+                        System.out.println("The account " + accountToDelete + " has been deleted.");
                         System.out.println(" ");
                     } else {
                         System.out.println(" ");
-                        System.out.println("No account with ID " + idToDelete + " found.");
+                        System.out.println("No account with name " + accountToDelete + " found.");
                         System.out.println(" ");
                     }
                     break;

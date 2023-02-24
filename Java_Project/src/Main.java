@@ -35,23 +35,20 @@ public class Main {
                     Statement st = connection.createStatement();
                     String query = "SELECT * FROM accs ORDER BY id";
                     ResultSet result = st.executeQuery(query);
-                    if(!result.isBeforeFirst()){
-                        System.out.println("Database is empty");
-                        break;
-                    }
-
+                    ResultSetMetaData metaData = result.getMetaData();
+                    int columnCount = metaData.getColumnCount();
 
                     // print column headers
-                    for (int i = 1; i <= 4; i++) {
-                        System.out.format("+----------------------");
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
                     }
                     System.out.println("+");
 
-                    System.out.format("|%-1s |%-17s |%-21s |%-21s |%-21s |\n", "ID", "Account", "Mail", "Login", "Password");
+                    System.out.format("|%-1s |%-20s |%-25s |%-20s |%-20s |\n", "ID", "Account", "Mail", "Login", "Password");
 
                     // print horizontal line
-                    for (int i = 1; i <= 4; i++) {
-                        System.out.format("+----------------------");
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
                     }
                     System.out.println("+");
 
@@ -63,14 +60,14 @@ public class Main {
                         String login = result.getString("login");
                         String password = result.getString("password");
 
-                        System.out.format("|%-2s |%-17s |%-21s |%-21s |%-21s |\n", id, account, mail, login, password);
-
-                        // print horizontal line
-                        for (int i = 1; i <= 4; i++) {
-                            System.out.format("+----------------------");
-                        }
-                        System.out.println("+");
+                        System.out.format("|%-2s |%-20s |%-25s |%-20s |%-20s |\n", id, account, mail, login, password);
                     }
+
+                    // print horizontal line
+                    for (int i = 1; i <= columnCount; i++) {
+                        System.out.format("+------------------");
+                    }
+                    System.out.println("+");
                     break;
 
                 case 2:

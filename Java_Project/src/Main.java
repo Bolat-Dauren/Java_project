@@ -33,8 +33,12 @@ public class Main {
             switch (command) {
                 case 1:
                     Statement st = connection.createStatement();
-                    String query = "SELECT * FROM accs ORDER BY id";
+                    String query = "SELECT * FROM accounts ORDER BY account";
                     ResultSet result = st.executeQuery(query);
+                    if(!result.isBeforeFirst()) {
+                        System.out.println("Database is empty");
+                        break;
+                    }
 
                     // print column headers
                     for (int i = 1; i <= 4; i++) {
@@ -42,7 +46,7 @@ public class Main {
                     }
                     System.out.println("+");
 
-                    System.out.format("|%-1s |%-15s |%-19s |%-19s |%-19s |\n", "ID", "Account", "Mail", "Login", "Password");
+                    System.out.format("|%-19s |%-19s |%-19s |%-19s |\n", "Account:", "Mail:", "Login:", "Password:");
 
                     // print horizontal line
                     for (int i = 1; i <= 4; i++) {
@@ -52,13 +56,12 @@ public class Main {
 
                     // print data rows
                     while (result.next()) {
-                        int id = result.getInt("id");
                         String account = result.getString("account");
                         String mail = result.getString("mail");
                         String login = result.getString("login");
                         String password = result.getString("password");
 
-                        System.out.format("|%-2s |%-15s |%-19s |%-19s |%-19s |\n", id, account, mail, login, password);
+                        System.out.format("|%-19s |%-19s |%-19s |%-19s |\n", account, mail, login, password);
 
                         // print horizontal line
                         for (int i = 1; i <= 4; i++) {
@@ -72,7 +75,7 @@ public class Main {
                 case 2:
                     UserInput userInput = new UserInput(scanner);
                     Account newAccount = userInput.getAccountInfo();
-                    String sql = "INSERT INTO accs(account, mail, login, password) VALUES (?, ?, ?, ?)";
+                    String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
                     PreparedStatement statement = this.connection.prepareStatement(sql);
                     statement.setString(1, newAccount.getAccount());
                     statement.setString(2, newAccount.getMail());
@@ -89,7 +92,7 @@ public class Main {
                 case 3:
                     System.out.print("Enter account name to delete: ");
                     String accountToDelete = scanner.nextLine();
-                    String deleteQuery = "DELETE FROM accs WHERE account=?";
+                    String deleteQuery = "DELETE FROM accounts WHERE account=?";
                     PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
                     deleteStatement.setString(1, accountToDelete);
                     int rowsDeleted = deleteStatement.executeUpdate();

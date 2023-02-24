@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "qwe123";
+    private static final String DB_PASSWORD = "0000"; //qwe123
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
     AccountSearcher accountSearcher = new AccountSearcher();
@@ -127,7 +127,7 @@ public class Main {
                 case 4:
                     System.out.println("Enter the name of account that you want to find: ");
                     String name = scanner.nextLine();
-                    System.out.println("");
+                    System.out.println(" ");
                     accountSearcher.searchAccountByName(name);
                     break;
 

@@ -8,7 +8,7 @@ public class AccountSearcher {
 
         // PostgreSQL database connection details
         String DB_USERNAME = "postgres";
-        String DB_PASSWORD = "qwe123";
+        String DB_PASSWORD = "0000"; //qwe123
         String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
 
         try {

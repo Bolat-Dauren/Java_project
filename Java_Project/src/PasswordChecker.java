@@ -23,16 +23,16 @@ public class PasswordChecker {
     private static int calculatePasswordScore(String password) {
         int score = 0;
         if (password.matches(".*[a-z].*")) {
-            score += 1;
+            score += 10;
         }
         if (password.matches(".*[A-Z].*")) {
-            score += 2;
+            score += 20;
         }
         if (password.matches(".*\\d.*")) {
-            score += 3;
+            score += 30;
         }
         if (password.matches(".*[@$!%*?&].*")) {
-            score += 4;
+            score += 40;
         }
         return score;
     }

@@ -1,6 +1,3 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.Date;
@@ -46,27 +43,39 @@ public class Main {
                         System.out.println(" ");
                         break;
                     }
-                    try {
-                        File file = new File("passwords.txt");
-                        FileWriter writer = new FileWriter(file);
-                        writer.write("+--------------------+--------------------+--------------------+--------------------+\n");
-                        writer.write("| Account:           | Mail:              | Login:             | Password:          |\n");
-                        writer.write("+--------------------+--------------------+--------------------+--------------------+\n");
-                        while (result.next()) {
-                            String account = result.getString("account");
-                            String mail = result.getString("mail");
-                            String login = result.getString("login");
-                            String password = result.getString("password");
-                            writer.write(String.format("| %-19s | %-19s | %-19s | %-19s |\n", account, mail, login, password));
-                            writer.write("+--------------------+--------------------+--------------------+--------------------+\n");
-                        }
-                        writer.close();
-                        System.out.println(" ");
-                        System.out.println("Data has been written to passwords.txt");
-                        System.out.println(" ");
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    System.out.println("");
+                    // print column headers
+                    for (int i = 1; i <= 4; i++) {
+                        System.out.format("+--------------------");
                     }
+                    System.out.println("+");
+
+                    System.out.format("|%-19s |%-19s |%-19s |%-19s |\n", "Account:", "Mail:", "Login:", "Password:");
+
+                    // print horizontal line
+                    for (int i = 1; i <= 4; i++) {
+                        System.out.format("+--------------------");
+                    }
+                    System.out.println("+");
+
+                    // print data rows
+                    while (result.next()) {
+                        String account = result.getString("account");
+                        String mail = result.getString("mail");
+                        String login = result.getString("login");
+                        String password = result.getString("password");
+
+
+                        System.out.format("|%-19s |%-19s |%-19s |%-19s |\n", account, mail, login, password);
+
+                        // print horizontal line
+                        for (int i = 1; i <= 4; i++) {
+                            System.out.format("+--------------------");
+                        }
+                        System.out.println("+");
+                    }
+                    System.out.println("");
+
                     break;
 
                 case 2:

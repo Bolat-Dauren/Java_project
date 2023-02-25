@@ -4,11 +4,17 @@ public class PasswordExpiration {
     private static final long EXPIRATION_PERIOD_MS = 30 * 24 * 60 * 60 * 1000L; // 30 days
 
     public static boolean isPasswordExpired(Date lastChanged) {
+        if (lastChanged == null) {
+            return true;
+        }
         Date now = new Date();
         return now.getTime() - lastChanged.getTime() >= EXPIRATION_PERIOD_MS;
     }
 
     public static void notifyPasswordExpiringSoon(Date lastChanged) {
+        if (lastChanged == null) {
+            return;
+        }
         Date now = new Date();
         long timeUntilExpiration = lastChanged.getTime() + EXPIRATION_PERIOD_MS - now.getTime();
         if (timeUntilExpiration <= 0) {

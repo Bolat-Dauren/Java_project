@@ -14,6 +14,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws SQLException {
+        Date lastPasswordChange = null; // or set to the actual date of last password change
+        if (PasswordExpiration.isPasswordExpired(lastPasswordChange)) {
+            PasswordExpiration.notifyPasswordExpired();
+        } else {
+            PasswordExpiration.notifyPasswordExpiringSoon(lastPasswordChange);
+        }
         try {
             Main main = new Main();
             main.run();

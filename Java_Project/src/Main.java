@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Main {
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "qwe123";
+    private static final String DB_PASSWORD = "0000";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     Connection connection;
     AccountSearcher accountSearcher = new AccountSearcher();
@@ -75,12 +75,12 @@ public class Main {
                     Account newAccount = userInput.getAccountInfo();
 
                     // check password expiration
-                    Date lastPasswordChange = null;
-                    if (PasswordExpiration.isPasswordExpired(lastPasswordChange)) {
-                        PasswordExpiration.notifyPasswordExpired();
-                    } else {
-                        PasswordExpiration.notifyPasswordExpiringSoon(lastPasswordChange);
-                    }
+//                    Date lastPasswordChange = null;
+//                    if (PasswordExpiration.isPasswordExpired(lastPasswordChange)) {
+//                        PasswordExpiration.notifyPasswordExpired();
+//                    } else {
+//                        PasswordExpiration.notifyPasswordExpiringSoon(lastPasswordChange);
+//                    }
 
                     String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
                     PreparedStatement statement = this.connection.prepareStatement(sql);

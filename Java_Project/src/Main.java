@@ -14,12 +14,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws SQLException {
-        Date lastPasswordChange = null; // or set to the actual date of last password change
-        if (PasswordExpiration.isPasswordExpired(lastPasswordChange)) {
-            PasswordExpiration.notifyPasswordExpired();
-        } else {
-            PasswordExpiration.notifyPasswordExpiringSoon(lastPasswordChange);
-        }
+
         try {
             Main main = new Main();
             main.run();
@@ -89,12 +84,11 @@ public class Main {
                     Account newAccount = userInput.getAccountInfo();
 
                     // check password expiration
-                    Date lastChanged = newAccount.getLastChanged();
-                    if (PasswordExpiration.isPasswordExpired(lastChanged)) {
+                    Date lastPasswordChange = null; // or set to the actual date of last password change
+                    if (PasswordExpiration.isPasswordExpired(lastPasswordChange)) {
                         PasswordExpiration.notifyPasswordExpired();
-                        return;
-                    } else if (PasswordExpiration.isPasswordExpired(lastChanged)) {
-                        PasswordExpiration.notifyPasswordExpiringSoon(lastChanged);
+                    } else {
+                        PasswordExpiration.notifyPasswordExpiringSoon(lastPasswordChange);
                     }
 
                     String sql = "INSERT INTO accounts(account, mail, login, password) VALUES (?, ?, ?, ?)";
